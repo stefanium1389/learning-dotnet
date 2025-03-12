@@ -1,5 +1,3 @@
-using System.Text.Json;
-using Keycloak.AuthServices.Authorization;
 using Domain.Repositories;
 using Service;
 using Service.Abstractions;
@@ -11,6 +9,8 @@ using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
@@ -43,5 +43,8 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.Run();

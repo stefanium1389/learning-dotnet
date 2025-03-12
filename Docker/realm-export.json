@@ -78,36 +78,9 @@
         "attributes": {}
       },
       {
-        "id": "7692a86e-4c7a-48cb-9610-a0ca7692ca98",
-        "name": "Tourist",
-        "description": "",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "0d5cb322-1b86-4d5c-9e9a-2aaf2cce9ef3",
-        "attributes": {}
-      },
-      {
         "id": "395acbbd-2c15-4d40-9271-cd6607485baa",
         "name": "uma_authorization",
         "description": "${role_uma_authorization}",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "0d5cb322-1b86-4d5c-9e9a-2aaf2cce9ef3",
-        "attributes": {}
-      },
-      {
-        "id": "cbfda571-808e-4162-8392-b9aae7206846",
-        "name": "Manager",
-        "description": "",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "0d5cb322-1b86-4d5c-9e9a-2aaf2cce9ef3",
-        "attributes": {}
-      },
-      {
-        "id": "fdbc174c-803f-4b8b-9401-9358a32aae5d",
-        "name": "Administrator",
-        "description": "",
         "composite": false,
         "clientRole": false,
         "containerId": "0d5cb322-1b86-4d5c-9e9a-2aaf2cce9ef3",

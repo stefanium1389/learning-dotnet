@@ -1,0 +1,7 @@
+C:\Users\stefan.bogdanovic\Desktop\Learning DotNet\obj\Debug\net9.0\Learning DotNet.csproj.AssemblyReference.cache
+C:\Users\stefan.bogdanovic\Desktop\Learning DotNet\obj\Debug\net9.0\Learning DotNet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\stefan.bogdanovic\Desktop\Learning DotNet\obj\Debug\net9.0\Learning DotNet.AssemblyInfoInputs.cache
+C:\Users\stefan.bogdanovic\Desktop\Learning DotNet\obj\Debug\net9.0\Learning DotNet.AssemblyInfo.cs
+C:\Users\stefan.bogdanovic\Desktop\Learning DotNet\obj\Debug\net9.0\Learning DotNet.csproj.CoreCompileInputs.cache
+C:\Users\stefan.bogdanovic\Desktop\Learning DotNet\obj\Debug\net9.0\Learning DotNet.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\stefan.bogdanovic\Desktop\Learning DotNet\obj\Debug\net9.0\Learning DotNet.MvcApplicationPartsAssemblyInfo.cache

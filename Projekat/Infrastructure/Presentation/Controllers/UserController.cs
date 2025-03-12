@@ -20,11 +20,9 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
-        
-
         [HttpGet]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> GetAllUsers([FromQuery] UserParameters userParameters)
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers([FromQuery] UserParameters userParameters)
         {
             var (userDtos, metaData) = await _serviceManager.UserService.GetAllUsersAsync(userParameters);
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metaData));
@@ -33,7 +31,7 @@ namespace Presentation.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> RegisterUser([FromBody] UserCreationDto userCreationDto)
+        public async Task<ActionResult<UserDto>> RegisterUser([FromBody] UserCreationDto userCreationDto)
         {
             var user = await _serviceManager.UserService.CreateUserAsync(userCreationDto);
             return Ok(user);
@@ -42,7 +40,7 @@ namespace Presentation.Controllers
         [HttpPost]
         [Route("registerManager")]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> RegisterManager([FromBody] UserCreationDto userCreationDto)
+        public async Task<ActionResult<UserDto>> RegisterManager([FromBody] UserCreationDto userCreationDto)
         {
             var user = await _serviceManager.UserService.CreateManagerAsync(userCreationDto);
             return Ok(user);
@@ -66,7 +64,7 @@ namespace Presentation.Controllers
         [HttpGet]
         [Route("suspicious")]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> GetSuspiciousUsers([FromQuery] UserParameters userParameters)
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetSuspiciousUsers([FromQuery] UserParameters userParameters)
         {
             var (userDtos, metaData) = await _serviceManager.UserService.GetSuspiciousUsersAsync(userParameters);
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metaData));
@@ -75,7 +73,7 @@ namespace Presentation.Controllers
         [HttpGet]
         [Authorize]
         [Route("account")]
-        public async Task<IActionResult> GetOwnAccount ()
+        public async Task<ActionResult<UserDto>> GetOwnAccount()
         {
             string? id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             UserDto user = await _serviceManager.UserService.GetUserByIdAsync(Guid.Parse(id!));
@@ -84,7 +82,7 @@ namespace Presentation.Controllers
         [HttpPut]
         [Authorize]
         [Route("account")]
-        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto userUpdateDto)
+        public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UserUpdateDto userUpdateDto)
         {
             string? id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             UserDto updatedUser = await _serviceManager.UserService.UpdateUserAsync(id, userUpdateDto);

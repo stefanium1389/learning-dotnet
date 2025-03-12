@@ -21,14 +21,14 @@ namespace Presentation.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetAccomodation([FromRoute] string id)
+        public async Task<ActionResult<AccomodationDto>> GetAccomodation([FromRoute] string id)
         {
             var accomodationDto = await _serviceManager.AccomodationService.GetAccomodationByIdAsync(id);
             return Ok(accomodationDto);
         }
         [HttpGet]
         [Route("{id}/units")]
-        public async Task<IActionResult> GetAccomodationUnits([FromQuery] AccomodationUnitParameters accomodationUnitParameters, [FromRoute] string id)
+        public async Task<ActionResult<IEnumerable<AccomodationUnitDto>>> GetAccomodationUnits([FromQuery] AccomodationUnitParameters accomodationUnitParameters, [FromRoute] string id)
         {
             var (accomodationUnitDtos, metaData) = await _serviceManager.AccomodationService.GetAccomodationUnitsForIdAsync(id, accomodationUnitParameters);
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metaData));
@@ -36,7 +36,7 @@ namespace Presentation.Controllers
         }
         [HttpPost]
         [Route("{id}/units")]
-        public async Task<IActionResult> CreateAccomodationUnit([FromRoute] string id, [FromBody] AccomodationUnitCreationDTO dto)
+        public async Task<ActionResult<AccomodationUnitDto>> CreateAccomodationUnit([FromRoute] string id, [FromBody] AccomodationUnitCreationDTO dto)
         {
             AccomodationUnitDto accomodationUnitDto = await _serviceManager.AccomodationService.CreateAccomodationUnitAsync(id, dto);
             return Ok(accomodationUnitDto);
@@ -50,20 +50,20 @@ namespace Presentation.Controllers
         }
         [HttpPut]
         [Route("units/{unitId}")]
-        public async Task<IActionResult> UpdateAccomodationUnit([FromRoute] string unitId, [FromBody] AccomodationUnitCreationDTO dto)
+        public async Task<ActionResult<AccomodationUnitDto>> UpdateAccomodationUnit([FromRoute] string unitId, [FromBody] AccomodationUnitCreationDTO dto)
         {
             AccomodationUnitDto accomodationUnitDto = await _serviceManager.AccomodationService.UpdateAccomodationUnitAsync(unitId, dto);
             return Ok(accomodationUnitDto);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateAccomodation([FromBody] AccomodationCreationDto dto)
+        public async Task<ActionResult<AccomodationDto>> CreateAccomodation([FromBody] AccomodationCreationDto dto)
         {
             AccomodationDto newAccomodation = await _serviceManager.AccomodationService.CreateAccomodationAsync(dto);
             return Ok(newAccomodation);
         }
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateAccomodation([FromBody] AccomodationCreationDto dto, [FromRoute] string id)
+        public async Task<ActionResult<AccomodationDto>> UpdateAccomodation([FromBody] AccomodationCreationDto dto, [FromRoute] string id)
         {
             AccomodationDto newAccomodation = await _serviceManager.AccomodationService.UpdateAccomodationAsync(dto, id);
             return Ok(newAccomodation);

@@ -19,7 +19,7 @@ namespace Presentation.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Tourist")]
-        public async Task<IActionResult> PostCommentAsync([FromBody] CommentCreationDto dto)
+        public async Task<ActionResult<CommentDto>> PostCommentAsync([FromBody] CommentCreationDto dto)
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             CommentDto commentDto = await _serviceManager.CommentService.CreateCommentAsync(dto, userId!);
@@ -28,7 +28,7 @@ namespace Presentation.Controllers
         [HttpPatch]
         [Route("{id}/approve")]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> ApproveComment([FromRoute] string id)
+        public async Task<ActionResult<CommentDto>> ApproveComment([FromRoute] string id)
         {
             CommentDto commentDto = await _serviceManager.CommentService.ApproveCommentAsync(id);
             return Ok(commentDto);
@@ -36,7 +36,7 @@ namespace Presentation.Controllers
         [HttpPatch]
         [Route("{id}/decline")]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> DeclineComment([FromRoute] string id)
+        public async Task<ActionResult<CommentDto>> DeclineComment([FromRoute] string id)
         {
             CommentDto commentDto = await _serviceManager.CommentService.DeclineCommentAsync(id);
             return Ok(commentDto);

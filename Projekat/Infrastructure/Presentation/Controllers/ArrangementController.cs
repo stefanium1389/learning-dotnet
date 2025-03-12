@@ -20,7 +20,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUpcomingArrangements([FromQuery] ArrangementParameters arrangementParameters)
+        public async Task<ActionResult<IEnumerable<ArrangementPreviewDto>>> GetUpcomingArrangements([FromQuery] ArrangementParameters arrangementParameters)
         {
             var (arrangementDtos, metaData) = await _serviceManager.ArrangementService.GetUpcomingArrangementsAsync(arrangementParameters);
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metaData));
@@ -29,7 +29,7 @@ namespace Presentation.Controllers
 
         [HttpGet]
         [Route("past")]
-        public async Task<IActionResult> GetPastAndCurrentArrangements([FromQuery] ArrangementParameters arrangementParameters)
+        public async Task<ActionResult<IEnumerable<ArrangementPreviewDto>>> GetPastAndCurrentArrangements([FromQuery] ArrangementParameters arrangementParameters)
         {
             var (arrangementDtos, metaData) = await _serviceManager.ArrangementService.GetPastAndCurrentArrangementsAsync(arrangementParameters);
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metaData));
@@ -37,14 +37,14 @@ namespace Presentation.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetArrangementById([FromRoute] string id)
+        public async Task<ActionResult<ArrangementDto>> GetArrangementById([FromRoute] string id)
         {
             var arrangementDto = await _serviceManager.ArrangementService.GetArrangementByIdAsync(id);
             return Ok(arrangementDto);
         }
         [HttpGet]
         [Route("{id}/comments")]
-        public async Task<IActionResult> GetArrangementComments([FromQuery] CommentParameters commentParameters, [FromRoute] string id)
+        public async Task<ActionResult<IEnumerable<CommentDto>>> GetArrangementComments([FromQuery] CommentParameters commentParameters, [FromRoute] string id)
         {
             var (commentDtos, metaData) = await _serviceManager.ArrangementService.GetApprovedArrangementCommentsAsync(commentParameters, id);
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metaData));
@@ -53,7 +53,7 @@ namespace Presentation.Controllers
         [HttpGet]
         [Route("{id}/allComments")]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> GetArrangementAllComments([FromQuery] CommentParameters commentParameters, [FromRoute] string id)
+        public async Task<ActionResult<IEnumerable<CommentDto>>> GetArrangementAllComments([FromQuery] CommentParameters commentParameters, [FromRoute] string id)
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var (commentDtos, metaData) = await _serviceManager.ArrangementService.GetAllArrangementCommentsAsync(commentParameters, id, userId!);
@@ -62,7 +62,7 @@ namespace Presentation.Controllers
         }
         [HttpPost]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> CreateArrangement([FromBody] ArrangementCreationDto dto)
+        public async Task<ActionResult<ArrangementDto>> CreateArrangement([FromBody] ArrangementCreationDto dto)
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var arrangementDto = await _serviceManager.ArrangementService.CreateArrangementAsync(dto, userId!);
@@ -71,7 +71,7 @@ namespace Presentation.Controllers
         [HttpPut]
         [Route("{id}")]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> UpdateArrangementById([FromBody] ArrangementCreationDto dto, [FromRoute] string id)
+        public async Task<ActionResult<ArrangementDto>> UpdateArrangementById([FromBody] ArrangementCreationDto dto, [FromRoute] string id)
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var arrangementDto = await _serviceManager.ArrangementService.UpdateArrangementAsync(dto, id, userId!);

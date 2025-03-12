@@ -20,7 +20,7 @@ namespace Presentation.Controllers
         }
         [HttpPost]
         [Authorize(Roles = "Tourist")]
-        public async Task<IActionResult> CreateReservation([FromBody] ReservationCreationDto dto)
+        public async Task<ActionResult<ReservationDto>> CreateReservation([FromBody] ReservationCreationDto dto)
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             ReservationDto reservationDto = await _serviceManager.ReservationService.CreateReservationAsync(dto, userId!);
@@ -29,7 +29,7 @@ namespace Presentation.Controllers
         [HttpPatch]
         [Authorize(Roles = "Tourist")]
         [Route("{id}/cancel")]
-        public async Task<IActionResult> CancelReservation([FromRoute] string id)
+        public async Task<ActionResult<ReservationDto>> CancelReservation([FromRoute] string id)
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             ReservationDto reservationDto = await _serviceManager.ReservationService.CancelReservationAsync(id, userId!);
@@ -37,7 +37,7 @@ namespace Presentation.Controllers
         }
         [HttpGet]
         [Authorize(Roles = "Tourist")]
-        public async Task<IActionResult> GetOwnReservations([FromQuery] ReservationParameters reservationParameters)
+        public async Task<ActionResult<IEnumerable<ReservationDto>>> GetOwnReservations([FromQuery] ReservationParameters reservationParameters)
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var (reservationDtos, metaData) = await _serviceManager.ReservationService.GetReservationsForUserId(userId!, reservationParameters);
@@ -47,7 +47,7 @@ namespace Presentation.Controllers
         [HttpGet]
         [Authorize(Roles = "Tourist,Manager")]
         [Route("{id}")]
-        public async Task<IActionResult> GetOwnReservations([FromRoute] string id)
+        public async Task<ActionResult<ReservationDto>> GetReservationById([FromRoute] string id)
         {
             ReservationDto reservationDto = await _serviceManager.ReservationService.GetReservationById(id);
             return Ok(reservationDto);
@@ -55,7 +55,7 @@ namespace Presentation.Controllers
         [HttpGet]
         [Authorize(Roles = "Manager")]
         [Route("manager/arrangements")]
-        public async Task<IActionResult> GetReservationsForOwnArrangements([FromQuery] ReservationParameters reservationParameters)
+        public async Task<ActionResult<IEnumerable<ReservationDto>>> GetReservationsForOwnArrangements([FromQuery] ReservationParameters reservationParameters)
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var (reservationDtos, metaData) = await _serviceManager.ReservationService.GetReservationsForManagersArrangementsByUserId(userId!, reservationParameters);
